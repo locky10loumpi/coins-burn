@@ -14,3 +14,10 @@ ignite c serve
 ```bash
 ignite s chain mychain --minimal --no-module --skip-git --path ./protocol
 ```
+
+In the `./prorocol` directory.
+
+construct the coin-actions module
+```bash
+ignite s module coin-actions --dep bank
+```
