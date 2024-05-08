@@ -38,7 +38,21 @@ type BankKeeper interface {
 }
 ```
 
-then edit: `x/coinactions/keeper/msg_server_burn_coins_action.go` with the burn logic
+then edit: `x/coinactions/keeper/msg_server_burn_coins_action.go` with the burn logic after `// TO-DO Handling the message` and replace `_ = ctx` by:
+```go
+creatorAddr, err := sdk.AccAddressFromBech32(msg.Creator)
+    if err != nil {
+	    return nil, err
+    }
+
+    if err := k.bankKeeper.SendCoinsFromAccountToModule(ctx, creatorAddr, types.ModuleName, msg.Coins); err != nil {
+        return nil, err
+    }
+
+    if err := k.bankKeeper.BurnCoins(ctx, types.ModuleName, msg.Coins); err != nil {
+        return nil, err
+    }
+```
 
 ## local tests
 
